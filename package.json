@@ -1,0 +1,32 @@
+{
+  "name": "tax-saver-bot",
+  "version": "0.1",
+  "description": "Bot to help save tax.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abeymm/tax-saver-bot.git"
+  },
+  "keywords": [
+    "slack",
+    "bot"
+  ],
+  "author": "Abey Mullassery",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abeymm/tax-saver-bot/issues"
+  },
+  "homepage": "https://github.com/abeymm/tax-saver-bot#readme",
+  "engines": {
+    "node": "5.1.1"
+  },
+  "dependencies": {
+    "botkit": "0.0.5",
+    "botkit-storage-mongo": "^1.0.2",
+    "mongodb": "^1.4.39"
+  }
+}
