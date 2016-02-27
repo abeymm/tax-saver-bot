@@ -85,24 +85,47 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
 });
 
-controller.hears('hello', 'direct_message', function (bot, message) {
-    bot.reply(message, 'Hello!');
+controller.hears(['hello', 'hi', 'greetings', 'hey', '.*deduct.*', '.*'], ['direct_message', 'mention', 'direct_mention'], function (bot, message) {
+    var text = message.text;
+    var reply = null;
+        
+    // Check within local question and answers.
+    var questions = [/deduct/i, /hello|hi|greetings/i];
+    var answers = ['Of course you can!', 'Hellooo'];
+    for (var i = 0; i < questions.length; i++) {
+        if (questions[i].test(text)) {
+            reply = answers[i];
+        }
+    }
+    
+    // Check with Watson
+    if (reply === null) {
+        console.log('Question:' + text);
+        var request = require('sync-request');
+        var res = request('POST', 'https://taxsaver.mybluemix.net/api/v1/conversation/12', {
+          json: {
+            message: text, 
+            referrer: {
+                source: "TOP_QUESTION"
+            }
+          }
+        });
+        var body = JSON.parse(res.getBody('utf8'));
+        console.log('\n\nResponses :' + body.responses.length);
+        if (body.responses.length > 0) {        
+            var htmlToText = require('html-to-text');
+            reply = htmlToText.fromString(body.responses[0].text, {
+                    wordwrap: 130
+                });
+        }
+    }
+    
+    // Fall back to dont-know answer
+    if (reply === null) {
+        reply = "Did not fully understand what you meant? I can answer questions related to tax.";
+    }
+    
+    bot.reply(message, reply);
+    console.log('Answer:' + reply);
+
 });
-
-
-/**
- * AN example of what could be:
- * Any un-handled direct mention gets a reaction and a pat response!
- */
-//controller.on('direct_message,mention,direct_mention', function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'robot_face',
-//    }, function (err) {
-//        if (err) {
-//            console.log(err)
-//        }
-//        bot.reply(message, 'I heard you loud and clear boss.');
-//    });
-//});

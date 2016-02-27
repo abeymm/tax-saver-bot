@@ -1,6 +1,6 @@
 {
   "name": "tax-saver-bot",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "Bot to help save tax.",
   "main": "index.js",
   "scripts": {
