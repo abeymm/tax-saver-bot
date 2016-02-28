@@ -85,13 +85,13 @@ controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
 });
 
-controller.hears(['hello', 'hi', 'greetings', 'hey', '.*deduct.*', '.*'], ['direct_message', 'mention', 'direct_mention'], function (bot, message) {
+controller.hears('.*', ['direct_message', 'mention', 'direct_mention'], function (bot, message) {
     var text = message.text;
     var reply = null;
         
     // Check within local question and answers.
-    var questions = [/deduct/i, /hello|hi|greetings/i];
-    var answers = ['Of course you can!', 'Hellooo'];
+    var questions = [/\b(hello|hi|greetings)\b/i];
+    var answers = ['Hellooo!'];
     for (var i = 0; i < questions.length; i++) {
         if (questions[i].test(text)) {
             reply = answers[i];
