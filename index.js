@@ -100,6 +100,7 @@ controller.hears(['hello', 'hi', 'greetings', 'hey', '.*deduct.*', '.*'], ['dire
     
     // Check with Watson
     if (reply === null) {
+        bot.reply(message, "Hmm, let me think about it...");
         console.log('Question:' + text);
         var request = require('sync-request');
         var res = request('POST', 'https://taxsaver.mybluemix.net/api/v1/conversation/12', {
@@ -122,7 +123,7 @@ controller.hears(['hello', 'hi', 'greetings', 'hey', '.*deduct.*', '.*'], ['dire
     
     // Fall back to dont-know answer
     if (reply === null) {
-        reply = "Did not fully understand what you meant? I can answer questions related to tax.";
+        reply = "Did not fully understand what you meant? I can only answer questions related to tax.";
     }
     
     bot.reply(message, reply);
